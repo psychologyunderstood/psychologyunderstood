@@ -1,0 +1,62 @@
+<!-- 1. Mood key -->
+<div id="moodKey">
+  <button data-mood="happy" style="background:#FFD966">😀 Happy</button>
+  <button data-mood="sad" style="background:#9FC5E8">😢 Sad</button>
+  <button data-mood="anxious" style="background:#F4CCCC">😰 Anxious</button>
+  <!-- add more as needed -->
+</div>
+
+<!-- 2. Mood map grid (e.g. one month) -->
+<div id="moodGrid"></div>
+
+<script>
+// Define the map size (rows = weeks, cols = days). You can generate this from a date library.
+const rows = 5, cols = 7;
+const grid = document.getElementById('moodGrid');
+
+// Create empty squares
+for (let i = 0; i < rows * cols; i++) {
+  const cell = document.createElement('div');
+  cell.className = 'moodCell';
+  cell.dataset.mood = '';
+  cell.addEventListener('click', () => {
+    selectedCell = cell;  // store which cell is selected
+  });
+  grid.appendChild(cell);
+}
+
+// Track selected cell
+let selectedCell = null;
+
+// When a mood button is clicked, colour the selected cell
+document.querySelectorAll('#moodKey button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (selectedCell) {
+      const mood = btn.dataset.mood;
+      selectedCell.style.background = btn.style.background;
+      selectedCell.dataset.mood = mood;
+    }
+  });
+});
+</script>
+
+<style>
+#moodGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 30px);
+  grid-gap: 4px;
+}
+.moodCell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+#moodKey button {
+  margin-right: 8px;
+  border: none;
+  padding: 5px 8px;
+  color: #333;
+  cursor: pointer;
+}
+</style>
